@@ -24,6 +24,28 @@ namespace Snake_Game_WF
         public Form1()
         {
             InitializeComponent();
+            initial();
+        }
+
+        private void initial()
+        {
+            visit = new bool[rows, cols];
+            Piece head = new Piece((rand.Next() % cols) * 20, (rand.Next() % rows) * 20);
+            labelFood.Location = new Point((rand.Next() % cols) * 20, (rand.Next() % rows) * 20);
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    visit[i, j] = false;
+                    available.Add(i * cols + j);
+                }
+            }
+
+            visit[head.Location.Y / 20, head.Location.X / 20] = true;
+            available.Remove(head.Location.Y / 20 * cols + head.Location.X / 20);
+            Controls.Add(head);
+            snake[front] = head;
         }
     }
 }
