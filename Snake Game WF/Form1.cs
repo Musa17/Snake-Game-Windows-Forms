@@ -25,6 +25,67 @@ namespace Snake_Game_WF
         {
             InitializeComponent();
             initial();
+            launchTimer();
+        }
+
+        private void launchTimer()
+        {
+            timer.Interval = 50;
+            timer.Tick += move;
+            timer.Start();
+        }
+
+        private void move(object sender, EventArgs e)
+        {
+            int x = snake[front].Location.X, y = snake[front].Location.Y;
+            if (dx == 0 && dy == 0)
+                return;
+
+            if(gameOver(x + dx, y + dy))
+            {
+                timer.Stop();
+                MessageBox.Show("GAME OVER !!");
+                return;
+            }
+
+            if (collisionFood(x + dx, y + dy))
+            {
+                score += 1;
+                labelScore.Text = "Score: " + score.ToString();
+
+                if (hits((y + dy) / 20, (x + dx) / 20))
+                    return;
+
+                Piece head = new Piece(x + dy, y + dy);
+                front = (front - 1 + 1250) % 1250;
+                snake[front] = head;
+
+                visit[head.Location.Y / 20, head.Location.X / 20] = true;
+                Controls.Add(head);
+
+            }
+        }
+
+        private bool hits(int x, int y)
+        {
+            if(visit[x, y])
+            {
+                timer.Stop();
+                MessageBox.Show("Snake hit his body !!");
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool collisionFood(int x, int y)
+        {
+            return x == labelFood.Location.X && y == labelFood.Location.Y;
+        }
+
+        private bool gameOver(int x, int y)
+        {
+            return x < 0 || y < 0 || x > 980 || y > 480;
         }
 
         private void initial()
