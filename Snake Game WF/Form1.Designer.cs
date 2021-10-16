@@ -46,10 +46,10 @@
             // 
             this.labelFood.AutoSize = true;
             this.labelFood.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelFood.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelFood.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelFood.Location = new System.Drawing.Point(338, 165);
             this.labelFood.Name = "labelFood";
-            this.labelFood.Size = new System.Drawing.Size(28, 27);
+            this.labelFood.Size = new System.Drawing.Size(21, 19);
             this.labelFood.TabIndex = 1;
             this.labelFood.Text = "  ";
             // 
@@ -68,6 +68,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Snake Game";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

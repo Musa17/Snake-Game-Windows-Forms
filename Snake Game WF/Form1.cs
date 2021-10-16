@@ -35,6 +35,30 @@ namespace Snake_Game_WF
             timer.Start();
         }
 
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            dx = dy = 0;
+
+            switch (e.KeyCode)
+            {
+                case Keys.Right:
+                    dx = 20;
+                    break;
+
+                case Keys.Left:
+                    dx = -20;
+                    break;
+
+                case Keys.Up:
+                    dy = -20;
+                    break;
+
+                case Keys.Down:
+                    dy = 20;
+                    break;
+            }
+        }
+
         private void move(object sender, EventArgs e)
         {
             int x = snake[front].Location.X, y = snake[front].Location.Y;
@@ -62,8 +86,39 @@ namespace Snake_Game_WF
 
                 visit[head.Location.Y / 20, head.Location.X / 20] = true;
                 Controls.Add(head);
-
+                randomFood();
             }
+
+            else
+            {
+                if (hits((y + dy) / 20, (x + dx) / 20))
+                    return;
+
+                visit[snake[back].Location.Y / 20, snake[back].Location.X / 20] = false;
+                front = (front - 1 + 1250) % 1250;
+                snake[front] = snake[back];
+                snake[front].Location = new Point(x + dx, y + dy);
+                back = (back - 1 + 1250) % 1250;
+                visit[(y + dy) / 20, (x + dx) / 20] = true;
+            }
+        }
+
+        private void randomFood()
+        {
+            available.Clear();
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (!visit[i, j])
+                        available.Add(i * cols + j);
+                }
+            }
+
+            int idx = rand.Next(available.Count) % available.Count;
+            labelFood.Left = (available[idx] * 20) % Width;
+            labelFood.Top = (available[idx] * 20) / Width * 20;
         }
 
         private bool hits(int x, int y)
